@@ -44,9 +44,13 @@ class Instrument {
   patch () {
     const instrumentedModules = _.uniq(instrumentations.map((instrumentation) => instrumentation.module))
 
+    _.forEach(instrumentedModules, (a) => debug(`loaded:${a}`))
+
     // Instrunent modules: hook require
-    hook(instrumentedModules, (moduleExports, moduleName, moduleBaseDir) =>
-      this.hookModule(moduleExports, moduleName, moduleBaseDir))
+    hook(instrumentedModules, (moduleExports, moduleName, moduleBaseDir) => {
+      debug(`Install hook: ${moduleName}`)
+      this.hookModule(moduleExports, moduleName, moduleBaseDir)
+    })
 
     debug('Patched')
   }
