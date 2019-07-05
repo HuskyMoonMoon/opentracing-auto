@@ -55,10 +55,9 @@ function patch (koa, tracers) {
 
         spans.forEach((span) => span.setTag(Tags.HTTP_STATUS_CODE, ctx.response.status))
 
-        if (ctx.response.status >= 400) {
+        if (ctx.response.status > 399) {
           spans.forEach((span) => {
             span.setTag(Tags.ERROR, true)
-            debug(span)
           })
 
           debug(`Operation error captured ${OPERATION_NAME}`, {
